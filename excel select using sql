@@ -1,0 +1,29 @@
+' Add reference
+'microsoft activex object library
+
+Sub sbADOExample()
+Dim sSQLQry As String
+Dim ReturnArray
+Dim Conn As New ADODB.Connection
+Dim mrs As New ADODB.Recordset
+Dim DBPath As String, sconnect As String
+DBPath = ThisWorkbook.FullName
+'You can provide the full path of your external file as shown below
+'DBPath ="C:\InputData.xlsx"
+sconnect = "Provider=MSDASQL.1;DSN=Excel Files;DBQ=" & DBPath & ";HDR=Yes';"
+'If any issue with MSDASQL Provider, Try the Microsoft.Jet.OLEDB:
+'sconnect = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & DBPath _
+& ";Extended Properties=""Excel 8.0;HDR=Yes;IMEX=1"";"
+Conn.Open sconnect
+sSQLSting = "SELECT * From [Sheet1$]" ' Your SQL Statement (Table Name= Sheet Name=[Sheet1$])
+mrs.Open sSQLSting, Conn
+'=>Load the Data into an array
+'ReturnArray = mrs.GetRows
+''OR''
+'=>Paste the data into a sheet
+Sheet2.Range("A2").CopyFromRecordset mrs
+'Close Recordset
+mrs.Close
+'Close Connection
+Conn.Close
+End Sub

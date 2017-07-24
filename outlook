@@ -1,0 +1,36 @@
+'Send a new message using Outlook
+Sub Send_Message()
+'Variable Declaration
+Dim OLApp As New Outlook.Application
+Dim oMessage As MailItem
+'Create objects
+Set OLApp = New Outlook.Application
+Set oMessage = OLApp.CreateItem(olMailItem)
+With oMessage
+.To = "emailID@domainname.com"
+.Subject = "Test Email"
+.Body = "This is a test message."
+.Send
+End With
+Set objMail = Nothing
+Set objOL = Nothing
+End Sub
+
+'Add attachment and send a message using Outlook
+Sub Send_Message_With_Attachment()
+'Variable Declaration
+Dim oMessage As Outlook.MailItem
+Dim oAttachment As Outlook.Attachments
+'Create Objects
+Set oMessage = Application.CreateItem(olMailItem)
+Set oAttachment = oMessage.Attachments
+'Add attachment
+oAttachment.Add "D:/Test.doc", olByValue, 1, "Test"
+'Add message details
+With oMessage
+.To = "emailID@domainname.com"
+.Subject = "Test Email"
+.Body = "This is a test message."
+.Send
+End With
+End Sub

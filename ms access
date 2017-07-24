@@ -1,0 +1,36 @@
+'How to create table in the required database using VBA?
+'Create table in the required database using VBA
+Sub sbCreate_Table()
+Dim DBase As Database
+'
+'Open Databse
+Set DBase = OpenDatabase("C:\Users\PNRao\Documents\MyDatabase.accdb")
+' Create a table with three fields.
+DBase.Execute "CREATE TABLE MyTable " _
+& "(EName CHAR, ENumber INT, ELocation CHAR);"
+DBase.Close
+End Sub
+
+'Add or Insert records to the access database table using VBA
+Sub sbAdd_Records_Table()
+Dim DBase As Database
+Dim strSQL As String
+'
+'Open Databse
+Set DBase = OpenDatabase("C:\Users\PNRao\Documents\MyDatabase.accdb")
+strSQL = "INSERT INTO MyTable values('John2',12345,'U.S');"
+' Adding records the table
+DoCmd.RunSQL strSQL
+DBase.Close
+End Sub
+
+'Delete table from a specific database using VBA
+Sub sbDelete_Table()
+Dim DBase As Database
+'
+'Open Databse
+Set DBase = OpenDatabase("C:\Users\PNRao\Documents\MyDatabase.accdb")
+' Create a table with three fields.
+DBase.Execute "DROP TABLE MyTable;"
+DBase.Close
+End Sub

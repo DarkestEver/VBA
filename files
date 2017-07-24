@@ -1,0 +1,68 @@
+' How to check whether file exists or not in a specified location?
+Sub Check_File2()
+Dim FSO
+Dim sFileName As String
+sFileName = "C:/Test/Workbook.xls"
+Set FSO = CreateObject("Scripting.FileSystemObject")
+If Not FSO.FileExists(sFileName) Then
+MsgBox "File Does Not Exists."
+Else
+MsgBox "File Exists."
+End If
+End Sub
+
+'  Using Dir Function:
+Sub Check_File1()
+Dim sFileName As String
+sFileName = "C:/Test/Workbook.xls"
+If Dir(sFileName) <> "" Then
+MsgBox "File Exists."
+Else
+MsgBox "File Does Not Exists."
+End If
+End Sub
+
+' How to save workbook using Excel VBA?
+Sub Save_Workbook()
+Dim Wkb As Workbook
+Set Wkb = Workbooks.Add
+Wkb.Save
+End Sub
+
+'How to change the existing file name?
+Sub SaveAs_Workbook()
+Dim Wkb As Workbook
+Set Wkb = Workbooks.Add
+ActiveWorkbook.SaveAs Filename:="C:\Test.xlsm"
+End Sub
+
+'How to delete a file in a specified location?
+Sub sbDelete_File()
+Dim FSO
+Dim sFile As String
+sFile = "C:\Test.xlsm"
+'Set Object
+Set FSO = CreateObject("Scripting.FileSystemObject")
+'Check File Exists or Not
+If FSO.FileExists(sFile) Then
+FSO.DeleteFile sFile, True
+MsgBox "Deleted The File Successfully", vbInformation, "Done!"
+Else
+MsgBox "Specified File Not Found", vbInformation, "Not Found!"
+End If
+End Sub
+
+'How to copy a file from one location to another location?
+Sub Copy_File()
+Dim FSO
+Dim sFileName As String
+Dim dFileName As String
+sFileName = "D:\Test.xlsx"  'Source File Location Name
+dFileName = "E:\Test.xlsx"  'Destination File Location Name
+Set FSO = CreateObject("Scripting.FileSystemObject")
+FSO.CopyFile sFileName, sFileName, True
+End Sub
+
+
+
+

@@ -1,0 +1,27 @@
+Sub FuturesScrap(ByVal URL As String) 
+    Dim XMLHttpRequest As XMLHTTP 
+    Dim HTMLDoc As New HTMLDocument 
+
+    Set XMLHttpRequest = New MSXML2.XMLHTTP 
+    XMLHttpRequest.Open "GET", URL, False 
+    XMLHttpRequest.send 
+    While XMLHttpRequest.readyState <> 4 
+        DoEvents 
+    Wend 
+
+    Debug.Print XMLHttpRequest.responseText 
+    HTMLDoc.body.innerHTML = XMLHttpRequest.responseText 
+
+    With HTMLDoc.body 
+        Set AnchorLinks = .getElementsByTagName("a") 
+        Set TDelements = .getElementsByTagName("td") 
+
+        For Each AnchorLink In AnchorLinks 
+            Debug.Print AnhorLink.innerText 
+        Next 
+
+        For Each TDelement In TDelements 
+            Debug.Print TDelement.innerText 
+        Next 
+    End With 
+End Sub 

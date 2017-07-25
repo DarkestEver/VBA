@@ -1,0 +1,37 @@
+
+accepted
+I set up a simple 3-column range on Sheet1 with Country, City, and Language in columns A, B, and C. The following code autofilters the range and then pastes only one of the columns of autofiltered data to another sheet. You should be able to modify this for your purposes:
+
+Sub CopyPartOfFilteredRange()
+    Dim src As Worksheet
+    Dim tgt As Worksheet
+    Dim filterRange As Range
+    Dim copyRange As Range
+    Dim lastRow As Long
+
+    Set src = ThisWorkbook.Sheets("Sheet1")
+    Set tgt = ThisWorkbook.Sheets("Sheet2")
+
+    ' turn off any autofilters that are already set
+    src.AutoFilterMode = False
+
+    ' find the last row with data in column A
+    lastRow = src.Range("A" & src.Rows.Count).End(xlUp).Row
+
+    ' the range that we are auto-filtering (all columns)
+    Set filterRange = src.Range("A1:C" & lastRow)
+
+    ' the range we want to copy (only columns we want to copy)
+    ' in this case we are copying country from column A
+    ' we set the range to start in row 2 to prevent copying the header
+    Set copyRange = src.Range("A2:A" & lastRow)
+
+    ' filter range based on column B
+    filterRange.AutoFilter field:=2, Criteria1:="Rio de Janeiro"
+
+    ' copy the visible cells to our target range
+    ' note that you can easily find the last populated row on this sheet
+    ' if you don't want to over-write your previous results
+    copyRange.SpecialCells(xlCellTypeVisible).Copy tgt.Range("A1")
+
+End Sub

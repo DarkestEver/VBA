@@ -1,0 +1,51 @@
+Sub clickFormButton()
+'we define the essential variables
+Dim ie As Object
+Dim form As Variant, button As Variant
+
+'add the "Microsoft Internet Controls" reference in your VBA Project indirectly
+Set ie = CreateObject("InternetExplorer.Application")
+
+'more variables for the inputboxes - makes our automation program user friendly
+myjobtype = InputBox("Enter type of job, eg. sales, administration")
+myexperience = InputBox("enter your no of years experience, for example, 3")
+mycity = InputBox("Enter the city where you wish to work")
+
+With ie
+
+.Visible = True
+.navigate ("http://www.monsterindia.com")
+
+' we ensure that the web page downloads completely before we fill the form automatically
+While ie.ReadyState <> 4
+DoEvents
+Wend
+
+'assigning the vinput variables to the html elements of the form
+ie.document.getelementsbyname("fts").Item.innertext = myjobtype
+ie.document.getelementsbyname("exp").Item(0).Value = myexperience
+ie.document.getelementsbyname("lmy").Item.innertext = mycity
+' accessing the button via the form
+Set form = ie.document.getElementsbytagname("form")
+
+Set button = form(0).onsubmit
+form(0).submit
+
+' again ensuring that the web page loads completely before we start scraping data
+Do While ie.busy: DoEvents: Loop
+
+Set TDelements = .document.getElementsbytagname("td")
+r = 0
+c = 0
+
+For Each TDelement In TDelements
+Sheet1.Range("A1").Offset(r, c).Value = TDelement.innertext
+r = r + 1
+Next
+
+End With
+
+' cleaning up memory
+Set ie = Nothing
+
+End Sub

@@ -1,0 +1,36 @@
+Sub CopyWaitCopy()
+Dim lastrow As Integer
+
+lastrow = InputBox("What is the last row number of the entries?", "Stop!") 
+' the above is there so my loop doesn't run forever
+
+1:
+ ActiveCell.Copy
+
+Application.SendKeys "%{Tab}", True 'This works, I get it to alt-tab and put focus on the second program.
+Application.SendKeys "{Tab}", True
+Application.SendKeys "O", True
+Application.SendKeys "{Tab}", True
+Application.SendKeys "{Tab}", True
+Application.SendKeys "{Tab}", True
+
+Application.SendKeys "123", True
+Application.SendKeys "{Tab}", True
+
+Application.SendKeys "^V", True
+Application.SendKeys "{Tab}", True
+'Application.SendKeys "{Enter}", True  ' -- is this how I would register the Enter key being pressed?
+
+
+
+Application.SendKeys "%{Tab}", True
+
+
+ActiveCell.Offset(1, 0).Select
+
+If ActiveCell.row < lastrow Then
+GoTo 1
+Else
+Exit Sub
+End If
+End Sub

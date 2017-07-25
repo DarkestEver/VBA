@@ -1,0 +1,51 @@
+Sub importSQLServerdata() 'sql:- sql server to excel
+
+
+'Dim constr As String
+Dim sqlstr As String
+
+
+sqlstr = "Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=True;Data Source=I-PUNHJW47540D;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=I-PUNHJW47540D;Use Encryption for Data=False;Tag with column collation when possible=False;Initial Catalog=testdb"
+
+Dim cnn As ADODB.Connection
+
+Dim rs As ADODB.Recordset
+
+Dim sQRY As String 'query
+
+Dim strFilePath As String 'filepath of access file
+
+Sheets("From_SQl_server").Cells.Clear   'clearing sheet
+
+
+Set cnn = New ADODB.Connection  'setting up db connection
+
+Set rs = New ADODB.Recordset    'setting recordset to get result into it
+
+
+cnn.Open sqlstr
+
+sQRY = "SELECT * FROM test" 'Replace 'test' with your SQL server DB Table name or Query name from which you want to download the data
+
+
+
+rs.Open sQRY, cnn
+
+Application.ScreenUpdating = False
+
+Sheets("From_SQl_server").Range("A1").CopyFromRecordset rs
+'above line does the following
+'1.THIS COPIES RECORDS TO SHEET
+'2.COMMENT WHEN USING INSERT INTO OPERATION
+
+rs.Close 'close recordset
+
+Set rs = Nothing
+
+cnn.Close 'close connection
+
+Set cnn = Nothing
+
+Exit Sub
+
+End Sub

@@ -1,0 +1,23 @@
+Private Sub CommandButton1_Click()
+Dim IE As Object
+Dim shellWins As New ShellWindows
+Dim IE_TabURL As String
+Dim intRowPosition As Integer
+
+intRowPosition = 2
+
+For Each IE In shellWins
+        IE_TabURL = IE.LocationURL
+        If (IE_TabURL <> vbNullString) And (IE_TabURL <> "about:Tabs") Then
+            Sheet1.Range("A" & intRowPosition) = IE_TabURL
+            intRowPosition = intRowPosition + 1
+        End If
+IE.Quit
+Next
+
+
+
+Set shellWins = Nothing
+'IE.Quit
+Set IE = Nothing
+End Sub

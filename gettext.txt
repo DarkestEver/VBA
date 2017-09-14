@@ -1,0 +1,15 @@
+Function GetText2(ByVal strtext, ByVal strStartTag, ByVal strEndTag)
+    Dim intStart, intEnd
+    intStart = CLng(InStr(1, strtext, strStartTag, vbTextCompare))
+    If intStart Then
+        intStart = CLng(intStart + Len(strStartTag))
+        intEnd = InStr(intStart + 1, strtext, strEndTag, vbTextCompare)
+        If intEnd <> 0 Then
+            GetText2 = Mid(strtext, intStart, intEnd - intStart)
+        Else
+            GetText2 = ""
+        End If
+    Else
+        GetText2 = ""
+    End If
+End Function

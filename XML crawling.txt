@@ -1,0 +1,28 @@
+Function FetchPage1(ByVal url As String) As String
+error1:
+
+    
+    Dim req As MSXML2.ServerXMLHTTP60
+    Set req = New MSXML2.ServerXMLHTTP60
+    
+   ' req.Option(WinHttpRequestOption_UserAgentString) = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)"
+    'req.setTimeouts 0, 120000, 120000, 120000
+    req.Open "GET", url, True
+    Application.Wait DateAdd("s", 1, Now)
+    On Error Resume Next
+    req.send
+    Application.Wait DateAdd("s", 1, Now)
+    req.waitForResponse (1000)
+    If Err.Number = 0 Then
+         If req.Status = 200 Then
+            FetchPage1 = req.responseText
+            req.abort
+            Else
+            FetchPage1 = ""
+            req.abort
+         End If
+    Else
+        GoTo error1
+    End If
+    
+End Function

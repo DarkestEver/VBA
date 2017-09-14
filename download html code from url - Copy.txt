@@ -1,0 +1,31 @@
+Public Sub downloadCode()
+Dim xHttp As MSXML2.XMLHTTP
+Dim hdoc As MSHTML.HTMLDocument
+Dim hElem As MSHTML.HTMLGenericElement
+Set xHttp = New MSXML2.XMLHTTP
+URL = Sheet8.Range("U3").value
+
+If InStr(URL, "ebay.co.uk") = 0 Then
+    MsgBox ("Invalid Ebay Link. Row:" & i)
+    Exit Sub
+End If
+
+xHttp.Open "GET", URL
+xHttp.send
+
+Do
+    DoEvents
+Loop Until xHttp.ReadyState = 4
+
+'put into an htmldocument object
+Set hdoc = New MSHTML.HTMLDocument
+hdoc.body.innerHTML = xHttp.responseText
+xHttp.abort
+Dim MyFile1, fnum1
+MyFile1 = "C:\hp\outputFromExcel1.txt"
+fnum1 = FreeFile()
+Open MyFile1 For Output As fnum1
+Print #fnum1, hdoc.body.innerHTML
+Close #fnum1
+Shell "C:\WINDOWS\explorer.exe """ & MyFile1 & "", vbNormalFocus
+End Sub

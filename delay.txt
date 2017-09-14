@@ -1,0 +1,7 @@
+Public Sub delay()
+        Dim endTime As Date
+        endTime = DateAdd("s", 2, Now())
+        Do While Now() < endTime
+            DoEvents
+        Loop
+    End Sub
